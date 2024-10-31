@@ -7,7 +7,7 @@ function cacheSet (key, value, ttl) {
 
 //get cache key and update the current_clicks by 1
 function cacheGet(key) {
-    let value = localCache.get(key)
+    const value = localCache.get(key)
     
     //if the key does not exist, return null
     if (!value) {
