@@ -5,10 +5,10 @@ const store_secret_schema = {
     type: "object",
     properties: {
       secret: {type: "string"},
-      expire_hours: {type: "integer"},
+      expire_minutes: {type: "integer"},
       expire_clicks: {type: "integer"}
     },
-    required: ["secret", "expire_hours", "expire_clicks"],
+    required: ["secret", "expire_minutes", "expire_clicks"],
     additionalProperties: false
   }
 

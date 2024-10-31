@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { validate_store_secret } from '../controller/schema_validator.js'
-import { cacheSet, cacheGet, cacheDelete } from '../controller/cacheManager.js'
+import { cacheSet, cacheGet, cacheDelete, cacheStats } from '../controller/cacheManager.js'
 import express from 'express'
 import { config } from "../controller/config.js";
 
@@ -17,14 +17,19 @@ router.post('/secret', async function (req, res) {
 
     //check size of body in KB
     const bodySize = (Buffer.byteLength(JSON.stringify(data)))/1024 //get the length of data in KB
-    if (bodySize > config.max_body_size) {
-        return res.status(413).send(`Request too big. Maximum size ${config.max_body_size}`)
+    if (bodySize > config.max_body_size_kb) {
+        return res.status(413).send(`Request too big. Check /stats endpoint.`)
+    }
+
+    //check if passed TTL is greater than the max key ttl
+    if ((data.expire_minutes) > config.max_key_ttl_minutes) {
+        return res.status(422).send(`Key TTL bigger than set limit. Check /stats endpoint.`)
     }
 
     //store secret
     const key = nanoid() //by default 21 chars, URL safe
     const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}/${key}`
-    const expire_seconds = data.expire_hours * 60 * 60
+    const expire_seconds = data.expire_minutes * 60
     const secret_json = { "secret": data.secret, "expire_clicks": data.expire_clicks, "current_clicks": 0 }
     
     //check cache set outcome
@@ -55,6 +60,22 @@ router.delete('/secret/:key', async function(req, res) {
         return res.status(404).send("Key not found")
     }
     return res.status(200).send("Key deleted")
+})
+
+router.get('/config', async function(req, res) {
+    return res.status(200).json({
+        "max_keys": config.max_keys,
+        "max_key_ttl_minutes": config.max_key_ttl_minutes,
+        "max_body_size_kb": config.max_body_size_kb
+    })
+})
+
+router.get('/stats', async function (req, res) {
+    const stats = cacheStats()
+    return res.status(200).json({
+        stats,
+        "Additional":"ksize = Key size in bytes. vsize = Value size in bytes"
+    })
 })
 
 export {router}

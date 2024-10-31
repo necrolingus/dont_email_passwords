@@ -7,7 +7,7 @@ function cacheSet (key, value, ttl) {
 
 //get cache key and update the current_clicks by 1
 function cacheGet(key) {
-    const value = localCache.get(key)
+    let value = localCache.get(key)
     
     //if the key does not exist, return null
     if (!value) {
@@ -18,24 +18,27 @@ function cacheGet(key) {
     const expire_clicks = value["expire_clicks"]
     const current_clicks = value["current_clicks"] + 1
     value["current_clicks"] = current_clicks
-    const remaining_ttl = localCache.getTtl( key )
-    const remaining_ttl_ms = (remaining_ttl - Date.now()) / 1000
-    value["remaining_ttl_ms"] = remaining_ttl_ms
+    const remaining_ttl = localCache.getTtl(key)
+    const remaining_ttl_seconds = (remaining_ttl - Date.now()) / 1000
+    value["remaining_ttl_seconds"] = Math.round(remaining_ttl_seconds)
     
-    //if we have more clicks than expire_clicks alllows, delete the key
+    //if we have more clicks than expire_clicks allows, delete the key
     if (current_clicks >= expire_clicks) {
         cacheDelete(key)
     } else {
-        cacheSet(key, value, remaining_ttl_ms)
+        cacheSet(key, value, remaining_ttl_seconds)
     }
-
     return value
 }
 
 //delete the cache key
 function cacheDelete(key) {
-    const delOutcome = localCache.del(key)
-    return delOutcome
+    return localCache.del(key)
 }
 
-export {cacheSet, cacheGet, cacheDelete}
+//count keys and get estimated size 
+function cacheStats() {
+    return localCache.getStats()
+}
+
+export {cacheSet, cacheGet, cacheDelete, cacheStats}
