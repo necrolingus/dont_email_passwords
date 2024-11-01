@@ -53,7 +53,6 @@ router.post('/secret', async function (req, res) {
 
 //ensure ui is optional
 router.get('/secret/:key/:ui?', async function(req, res) {
-    console.log(req.headers['x-forwarded-for'])
     const key = req.params.key
     const ui = req.params.ui
     const value = cacheGet(key)
