@@ -2,7 +2,7 @@ name: build_docker_image
 
 on:
   workflow_dispatch:
-
+  
 jobs:
   login_build_push:
     runs-on: ubuntu-latest
