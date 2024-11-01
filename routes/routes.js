@@ -66,50 +66,52 @@ router.get('/secret/:key/:ui?', async function(req, res) {
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         // Constructing the HTML response
         const html = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Secret</title>
-                <style>
-                    body {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                    }
-                    .container {
-                        text-align: center;
-                        border: 1px solid #ccc;
-                        padding: 20px;
-                        border-radius: 8px;
-                        max-width: 400px;
-                        background-color: #f9f9f9;
-                    }
-                    .label {
-                        font-weight: bold;
-                        color: #333;
-                    }
-                    .value {
-                        color: #555;
-                        margin-bottom: 10px;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h2>Secret Information</h2>
-                    <p><span class="label">Secret:</span> <span class="value">${value.secret}</span></p>
-                    <p><span class="label">Expire Clicks:</span> <span class="value">${value.expire_clicks}</span></p>
-                    <p><span class="label">Current Clicks:</span> <span class="value">${value.current_clicks}</span></p>
-                    <p><span class="label">Remaining Time (seconds):</span> <span class="value">${value.remaining_ttl_seconds}</span></p>
-                </div>
-            </body>
-            </html>
-        `;
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Secret</title>
+            <style>
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                }
+                .container {
+                    text-align: center;
+                    border: 1px solid #ccc;
+                    padding: 20px;
+                    border-radius: 8px;
+                    max-width: 400px;
+                    background-color: #f9f9f9;
+                    overflow-wrap: break-word; /* Allows long words to wrap */
+                }
+                .label {
+                    font-weight: bold;
+                    color: #333;
+                }
+                .value {
+                    color: #555;
+                    margin-bottom: 10px;
+                    max-width: 100%; /* Ensures the value does not exceed the container */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h2>Secret Information</h2>
+                <p><span class="label">Secret:</span> <span class="value">${value.secret}</span></p>
+                <p><span class="label">Expire Clicks:</span> <span class="value">${value.expire_clicks}</span></p>
+                <p><span class="label">Current Clicks:</span> <span class="value">${value.current_clicks}</span></p>
+                <p><span class="label">Remaining Time (seconds):</span> <span class="value">${value.remaining_ttl_seconds}</span></p>
+            </div>
+        </body>
+        </html>
+    `;
         
         return res.send(html);
     }
