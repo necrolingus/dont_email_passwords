@@ -1,0 +1,8 @@
+version: "3"
+services:
+  nodejs_dynamic_rest_endpoints:
+    image: dont_email_passwords:latest
+    restart: unless-stopped
+    env_file: stack.env
+    ports:
+      - 3058:3000
