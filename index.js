@@ -1,6 +1,7 @@
 import express from 'express'
 import { engine } from 'express-handlebars'
 import {router} from './routes/routes.js'
+import {uiRouter} from './routes/uiRoutes.js'
 import {config} from './controller/config.js'
 import { globalLimiter } from './middleware/rateLimit.js'
 
@@ -18,9 +19,7 @@ app.use('/api', router)
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
-app.get('/ui', (req, res) => {
-    res.render('home');
-});
+app.use('/ui', uiRouter);
 
 
 app.listen(port, (err) => {

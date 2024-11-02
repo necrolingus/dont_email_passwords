@@ -20,11 +20,12 @@ function updateValue(id, value) {
       contentType: 'application/json',
       data: JSON.stringify({ secret, expire_minutes, expire_clicks }),
       success: function (response) {
-        $('#response-text').text(`${response}/ui`);
-        $('#response-message').show();
-      },
-      error: function(xhr) {
-        $('#response-text').text(xhr.responseText);  // Display error text directly
+        // Extract the base URL and the unique key
+        const baseUrl = response.split('/api/secret')[0];
+        const uniqueKey = response.split('/').pop();
+        
+        // Display the extracted parts
+        $('#response-text').text(`${baseUrl}/ui/${uniqueKey}`);
         $('#response-message').show();
       }
     });

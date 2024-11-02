@@ -95,3 +95,25 @@ button:hover {
 button:active {
   transform: scale(0.98);          /* Press effect */
 }
+
+.label {
+  font-weight: bold;
+  color: #333;
+}
+.value {
+  color: #555;
+  margin-bottom: 10px;
+  max-width: 100%; /* Ensures the value does not exceed the container */
+}
+.sublabel {
+  font-weight: normal;
+  color: #a1a1a1;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em; /* Example of using em */
+}
+.subvalue {
+  font-weight: normal;
+  color: #a1a1a1;
+  font-family: Arial, sans-serif;
+  font-size: 0.9em; /* Example of using em */
+}

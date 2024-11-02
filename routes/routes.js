@@ -51,103 +51,15 @@ router.post('/secret', async function (req, res) {
     return res.status(200).send(fullUrl)
 })
 
-//ensure ui is optional
-router.get('/secret/:key/:ui?', async function(req, res) {
+router.get('/secret/:key/', async function(req, res) {
     const key = req.params.key
-    const ui = req.params.ui
     const value = cacheGet(key)
     
     if(!value) {
         return res.status(404).send("Key not found")
     }
 
-    //if the ui is requesting the key, return html
-    if(ui === 'ui') {
-        const currentDate = new Date();
-        const expiryDate = new Date(currentDate.getTime() + value.remaining_ttl_seconds * 1000);
-        const options = {
-            year: 'numeric',
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        };
-        const formattedExpiryDate = expiryDate.toLocaleString('en-GB', options);
-
-
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        const html = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Secret</title>
-            <style>
-                body {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                }
-                .container {
-                    text-align: center;
-                    border: 1px solid #ccc;
-                    padding: 20px;
-                    border-radius: 8px;
-                    max-width: 400px;
-                    background-color: #f9f9f9;
-                    overflow-wrap: break-word; /* Allows long words to wrap */
-                }
-                .label {
-                    font-weight: bold;
-                    color: #333;
-                }
-                .value {
-                    color: #555;
-                    margin-bottom: 10px;
-                    max-width: 100%; /* Ensures the value does not exceed the container */
-                }
-                .sublabel {
-                    font-weight: normal;
-                    color: #a1a1a1;
-                    font-family: Arial, sans-serif;
-                    font-size: 0.9em; /* Example of using em */
-                }
-                .subvalue {
-                    font-weight: normal;
-                    color: #a1a1a1;
-                    font-family: Arial, sans-serif;
-                    font-size: 0.9em; /* Example of using em */
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h2>Secret Information</h2>
-                <p><span class="label">Secret:</span> <span class="value">${value.secret}</span></p>
-                <p><span class="label">Clicks left before Expiry:</span> <span class="value">${value.expire_clicks - value.current_clicks}</span></p>
-                <p><span class="sublabel">Total Allowed Clicks:</span> <span class="subvalue">${value.expire_clicks}</span></p>
-                <p><span class="sublabel">Current Clicks:</span> <span class="subvalue">${value.current_clicks}</span></p>
-                <p><span class="label">Expiry Date:</span> <span class="value">${formattedExpiryDate}</span></p>
-                <p><span class="sublabel">Remaining Time (seconds):</span> <span class="subvalue">${value.remaining_ttl_seconds}</span></p>
-                <p><span class="sublabel">Remaining Time (minutes):</span> <span class="subvalue">${Math.round((value.remaining_ttl_seconds)/60)}</span></p>
-                <p><span class="sublabel">Remaining Time (hours):</span> <span class="subvalue">${Math.round((value.remaining_ttl_seconds)/60/60)}</span></p>
-            </div>
-        </body>
-        </html>
-    `;
-        
-        return res.send(html);
-    }
-
-    //respond with json if the ui is not requesting it
-    res.setHeader('Content-Type', 'application/json');
     return res.status(200).json(value)
-    
 })
 
 router.delete('/secret/:key', async function(req, res) {
@@ -161,6 +73,7 @@ router.delete('/secret/:key', async function(req, res) {
 })
 
 router.get('/config', async function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(200).json({
         "max_keys": config.max_keys,
         "max_key_ttl_minutes": config.max_key_ttl_minutes,
@@ -171,6 +84,8 @@ router.get('/config', async function(req, res) {
 
 router.get('/stats', async function (req, res) {
     const stats = cacheStats()
+
+    res.setHeader('Content-Type', 'application/json');
     return res.status(200).json({
         stats,
         "Additional":"ksize = Key size in bytes. vsize = Value size in bytes"
