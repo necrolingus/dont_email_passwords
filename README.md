@@ -18,11 +18,26 @@ Check it out [https://dep.leighonline.net/documentation](https://dep.leighonline
 ## 🤩 Try it out!
 But read the documentation first 🎓😎
 
-#### User Interface
+### User Interface
 [https://dep.leighonline.net/ui/](https://dep.leighonline.net/ui)  🎉🥳🎊🎁
 
 
-#### APIs
+- ✅ Enter your secret
+- ✅ Set when the link should expire
+- ✅ Set after how many clicks the link should expire
+
+
+![image](https://github.com/user-attachments/assets/811e4b70-884d-4c7b-b907-82c62972311b)
+
+
+#### Share the link, not the password!
+
+![image](https://github.com/user-attachments/assets/02f5f730-022c-4c81-a651-b9106aa4319a)
+
+
+
+
+### APIs
 [https://dep.leighonline.net/api/](https://dep.leighonline.net/api)
 
 ---
