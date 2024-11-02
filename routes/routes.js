@@ -111,18 +111,31 @@ router.get('/secret/:key/:ui?', async function(req, res) {
                     margin-bottom: 10px;
                     max-width: 100%; /* Ensures the value does not exceed the container */
                 }
+                .sublabel {
+                    font-weight: normal;
+                    color: #a1a1a1;
+                    font-family: Arial, sans-serif;
+                    font-size: 0.9em; /* Example of using em */
+                }
+                .subvalue {
+                    font-weight: normal;
+                    color: #a1a1a1;
+                    font-family: Arial, sans-serif;
+                    font-size: 0.9em; /* Example of using em */
+                }
             </style>
         </head>
         <body>
             <div class="container">
                 <h2>Secret Information</h2>
                 <p><span class="label">Secret:</span> <span class="value">${value.secret}</span></p>
-                <p><span class="label">Expire Clicks:</span> <span class="value">${value.expire_clicks}</span></p>
-                <p><span class="label">Current Clicks:</span> <span class="value">${value.current_clicks}</span></p>
+                <p><span class="label">Clicks left before Expiry:</span> <span class="value">${value.expire_clicks - value.current_clicks}</span></p>
+                <p><span class="sublabel">Total Allowed Clicks:</span> <span class="subvalue">${value.expire_clicks}</span></p>
+                <p><span class="sublabel">Current Clicks:</span> <span class="subvalue">${value.current_clicks}</span></p>
                 <p><span class="label">Expiry Date:</span> <span class="value">${formattedExpiryDate}</span></p>
-                <p><span class="label">Remaining Time (seconds):</span> <span class="value">${value.remaining_ttl_seconds}</span></p>
-                <p><span class="label">Remaining Time (minutes):</span> <span class="value">${Math.round((value.remaining_ttl_seconds)/60)}</span></p>
-                <p><span class="label">Remaining Time (hours):</span> <span class="value">${Math.round((value.remaining_ttl_seconds)/60/60)}</span></p>
+                <p><span class="sublabel">Remaining Time (seconds):</span> <span class="subvalue">${value.remaining_ttl_seconds}</span></p>
+                <p><span class="sublabel">Remaining Time (minutes):</span> <span class="subvalue">${Math.round((value.remaining_ttl_seconds)/60)}</span></p>
+                <p><span class="sublabel">Remaining Time (hours):</span> <span class="subvalue">${Math.round((value.remaining_ttl_seconds)/60/60)}</span></p>
             </div>
         </body>
         </html>
