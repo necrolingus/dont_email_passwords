@@ -3,12 +3,11 @@
 
     <form id="secret-form">
       <div>
-        <label for="secret">Secret:</label>
         <textarea id="secret" maxlength="1000"></textarea>
       </div>
 
       <div>
-        <h3>Validity Period:</h3>
+        <h4>Validity Period</h4>
         <div class="slider-container">
           <label for="minutes">Minutes:</label>
           <input type="range" id="minutes" min="0" max="60" value="0" oninput="updateValue('minutes', this.value)">
@@ -27,7 +26,7 @@
       </div>
 
       <div>
-        <label for="clicks">Number of Clicks before Expiry:</label>
+        <h4>Clicks before expiry</h4>
         <div class="slider-container">
           <input type="range" id="clicks" min="7" max="200" value="7" oninput="updateValue('clicks', this.value)">
           <span id="clicks-value" class="slider-value">7</span>
