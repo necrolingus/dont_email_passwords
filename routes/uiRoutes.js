@@ -3,7 +3,6 @@ import axios from 'axios'
 
 const uiRouter = express.Router()
 
-
 function computeExpiry(ttl) {
     const currentDate = new Date();
     const expiryDate = new Date(currentDate.getTime() + ttl * 1000);
