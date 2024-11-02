@@ -63,8 +63,20 @@ router.get('/secret/:key/:ui?', async function(req, res) {
 
     //if the ui is requesting the key, return html
     if(ui === 'ui') {
+        const currentDate = new Date();
+        const expiryDate = new Date(currentDate.getTime() + value.remaining_ttl_seconds * 1000);
+        const options = {
+            year: 'numeric',
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        const formattedExpiryDate = expiryDate.toLocaleString('en-GB', options);
+
+
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        // Constructing the HTML response
         const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -107,7 +119,10 @@ router.get('/secret/:key/:ui?', async function(req, res) {
                 <p><span class="label">Secret:</span> <span class="value">${value.secret}</span></p>
                 <p><span class="label">Expire Clicks:</span> <span class="value">${value.expire_clicks}</span></p>
                 <p><span class="label">Current Clicks:</span> <span class="value">${value.current_clicks}</span></p>
+                <p><span class="label">Expiry Date:</span> <span class="value">${formattedExpiryDate}</span></p>
                 <p><span class="label">Remaining Time (seconds):</span> <span class="value">${value.remaining_ttl_seconds}</span></p>
+                <p><span class="label">Remaining Time (minutes):</span> <span class="value">${Math.round((value.remaining_ttl_seconds)/60)}</span></p>
+                <p><span class="label">Remaining Time (hours):</span> <span class="value">${Math.round((value.remaining_ttl_seconds)/60/60)}</span></p>
             </div>
         </body>
         </html>
