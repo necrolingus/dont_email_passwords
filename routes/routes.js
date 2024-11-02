@@ -58,7 +58,6 @@ router.get('/secret/:key/', async function(req, res) {
     if(!value) {
         return res.status(404).send("Key not found")
     }
-
     return res.status(200).json(value)
 })
 
@@ -74,6 +73,7 @@ router.delete('/secret/:key', async function(req, res) {
 
 router.get('/config', async function(req, res) {
     res.setHeader('Content-Type', 'application/json');
+
     return res.status(200).json({
         "max_keys": config.max_keys,
         "max_key_ttl_minutes": config.max_key_ttl_minutes,
@@ -84,7 +84,7 @@ router.get('/config', async function(req, res) {
 
 router.get('/stats', async function (req, res) {
     const stats = cacheStats()
-
+    
     res.setHeader('Content-Type', 'application/json');
     return res.status(200).json({
         stats,
