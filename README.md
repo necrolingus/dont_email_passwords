@@ -25,16 +25,13 @@ But read the documentation first 🎓😎
 - ✅ Enter your secret
 - ✅ Set when the link should expire
 - ✅ Set after how many clicks the link should expire
+- ✅Click submit and share the link
 
 
-![image](https://github.com/user-attachments/assets/811e4b70-884d-4c7b-b907-82c62972311b)
+![image](https://github.com/user-attachments/assets/c44f7de8-d9c4-4c0b-a6c6-4f76cd126367)
 
 
-#### Share the link, not the password!
-
-![image](https://github.com/user-attachments/assets/02f5f730-022c-4c81-a651-b9106aa4319a)
-
-
+![image](https://github.com/user-attachments/assets/18fd2999-b30e-4b83-974b-4f173230cf8c)
 
 
 ### APIs
