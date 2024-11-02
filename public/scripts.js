@@ -3,7 +3,7 @@ function updateValue(id, value) {
     document.getElementById(`${id}-value`).textContent = value;
   }
   
-  // Handle form submission with AJAX
+  // Submit secret and get URL
   $('#secret-form').on('submit', function (e) {
     e.preventDefault();
   
@@ -30,6 +30,31 @@ function updateValue(id, value) {
       }
     });
   });
+
+  // Delete secret
+  $('#delete-secret-form').on('submit', function (e) {
+    e.preventDefault();
+
+    // Extract the last part of the URL, which is the secret key
+    const urlPath = window.location.pathname;
+    const secretKey = urlPath.split('/').pop();
+  
+    $.ajax({
+        url: `/api/secret/${secretKey}`,
+        type: 'DELETE',
+        contentType: 'application/json',
+        success: function (response) {
+            $('#delete-response-text').text(`${response}`);
+        },
+        error: function (jqXHR) {
+            if (jqXHR.status === 404) {
+                $('#delete-response-text').text(`${jqXHR.responseText}`);
+            } else {
+                $('#delete-response-text').text('An error occurred while deleting the secret.');
+            }
+        }
+    });
+});
   
   // Copy response text to clipboard
   function copyToClipboard() {
