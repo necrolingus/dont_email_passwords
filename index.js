@@ -21,7 +21,6 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 app.use('/ui', uiRouter);
 
-
 app.listen(port, (err) => {
     console.log(`Listening on port ${port}`)
     if(err) {

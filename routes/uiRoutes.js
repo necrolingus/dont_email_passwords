@@ -20,7 +20,6 @@ function computeExpiry(ttl) {
     return formattedExpiryDate
 }
 
-
 uiRouter.get('/', async function(req, res) {
     res.render('home');
 })
@@ -41,7 +40,6 @@ uiRouter.get('/:key', async function(req, res) {
         const remainingMinutes = Math.round(secretData.remaining_ttl_seconds / 60);
         const remainingHours = Math.round(secretData.remaining_ttl_seconds / 3600);
 
-
         return res.render('presentSecret', {
             secret: secretData.secret,
             clicksLeft,
@@ -52,8 +50,7 @@ uiRouter.get('/:key', async function(req, res) {
             remainingHours,
             prettyExpiry
         });
-        
-        
+
     } catch (error) {
         if (error.status === 404){
             res.render('404');
