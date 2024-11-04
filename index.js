@@ -4,6 +4,7 @@ import {router} from './routes/routes.js'
 import {uiRouter} from './routes/uiRoutes.js'
 import {config} from './controller/config.js'
 import { globalLimiter } from './middleware/rateLimit.js'
+import { headers } from './middleware/headers.js'
 
 const port = config.port
 
@@ -12,6 +13,7 @@ const app = express()
 app.set('trust proxy', config.rl_number_of_proxies)
 app.use(express.json())
 app.use(express.static('public'));
+app.use(headers)
 app.use(globalLimiter)
 app.use('/api', router)
 
