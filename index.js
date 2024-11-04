@@ -10,6 +10,7 @@ const port = config.port
 
 //express
 const app = express()
+app.disable('x-powered-by');
 app.set('trust proxy', config.rl_number_of_proxies)
 app.use(express.json())
 app.use(express.static('public'));
