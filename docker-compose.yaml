@@ -1,6 +1,6 @@
 version: "3"
 services:
-  nodejs_dynamic_rest_endpoints:
+  dont_email_passwords:
     image: dont_email_passwords:latest
     restart: unless-stopped
     env_file: stack.env
