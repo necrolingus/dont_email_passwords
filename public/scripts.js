@@ -27,6 +27,12 @@ function updateValue(id, value) {
         // Display the extracted parts
         $('#response-text').text(`${baseUrl}/ui/${uniqueKey}`);
         $('#response-message').show();
+      },
+      error: function (xhr) {
+        // Show error message from server or default to a generic message
+        const errorMessage = xhr.responseText || "Something went wrong. Check the /api/config endpoint";
+        $('#response-text').text(errorMessage);
+        $('#response-message').show();
       }
     });
   });

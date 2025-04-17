@@ -10,17 +10,17 @@
         <h4>Validity Period</h4>
         <div class="slider-container">
           <label for="minutes">Minutes:</label>
-          <input type="range" id="minutes" min="0" max="60" value="0" oninput="updateValue('minutes', this.value)">
+          <input type="range" id="minutes" min="0" max="59" value="0" oninput="updateValue('minutes', this.value)">
           <span id="minutes-value" class="slider-value">0</span>
         </div>
         <div class="slider-container">
           <label for="hours">Hours:</label>
-          <input type="range" id="hours" min="0" max="24" value="0" oninput="updateValue('hours', this.value)">
+          <input type="range" id="hours" min="0" max="23" value="12" oninput="updateValue('hours', this.value)">
           <span id="hours-value" class="slider-value">0</span>
         </div>
         <div class="slider-container">
           <label for="days">Days:</label>
-          <input type="range" id="days" min="0" max="7" value="1" oninput="updateValue('days', this.value)">
+          <input type="range" id="days" min="0" max="6" value="0" oninput="updateValue('days', this.value)">
           <span id="days-value" class="slider-value">1</span>
         </div>
       </div>
@@ -28,7 +28,7 @@
       <div>
         <h4>Clicks before expiry</h4>
         <div class="slider-container">
-          <input type="range" id="clicks" min="7" max="200" value="7" oninput="updateValue('clicks', this.value)">
+          <input type="range" id="clicks" min="7" max="200" value="20" oninput="updateValue('clicks', this.value)">
           <span id="clicks-value" class="slider-value">7</span>
         </div>
       </div>
