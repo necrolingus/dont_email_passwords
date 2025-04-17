@@ -13,28 +13,32 @@ function updateValue(id, value) {
       parseInt($('#hours').val()) * 60 +
       parseInt($('#days').val()) * 1440; // 1440 = 24*60
     const expire_clicks = parseInt($('#clicks').val());
-  
-    $.ajax({
-      url: '/api/secret',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({ secret, expire_minutes, expire_clicks }),
-      success: function (response) {
-        // Extract the base URL and the unique key
-        const baseUrl = response.split('/api/secret')[0];
-        const uniqueKey = response.split('/').pop();
-        
-        // Display the extracted parts
-        $('#response-text').text(`${baseUrl}/ui/${uniqueKey}`);
-        $('#response-message').show();
-      },
-      error: function (xhr) {
-        // Show error message from server or default to a generic message
-        const errorMessage = xhr.responseText || "Something went wrong. Check the /api/config endpoint";
-        $('#response-text').text(errorMessage);
-        $('#response-message').show();
-      }
-    });
+    
+    if (expire_minutes == 0) {
+      $('#response-text').text("Key TTL must be greater than 0.");
+    } else {
+      $.ajax({
+        url: '/api/secret',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ secret, expire_minutes, expire_clicks }),
+        success: function (response) {
+          // Extract the base URL and the unique key
+          const baseUrl = response.split('/api/secret')[0];
+          const uniqueKey = response.split('/').pop();
+          
+          // Display the extracted parts
+          $('#response-text').text(`${baseUrl}/ui/${uniqueKey}`);
+          $('#response-message').show();
+        },
+        error: function (xhr) {
+          // Show error message from server or default to a generic message
+          const errorMessage = xhr.responseText || "Something went wrong. Check the /api/config endpoint";
+          $('#response-text').text(errorMessage);
+          $('#response-message').show();
+        }
+      });
+    }
   });
 
   // Delete secret
