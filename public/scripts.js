@@ -16,6 +16,8 @@ function updateValue(id, value) {
     
     if (expire_minutes == 0) {
       $('#response-text').text("Key TTL must be greater than 0.");
+      $('#response-message').show();
+      
     } else {
       $.ajax({
         url: '/api/secret',
