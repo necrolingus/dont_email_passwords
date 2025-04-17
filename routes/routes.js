@@ -31,6 +31,11 @@ router.post('/secret', async function (req, res) {
         return res.status(422).send(`Key TTL bigger than set limit. Check /config endpoint.`)
     }
 
+    //check if passed TTL is 0
+    if ((data.expire_minutes) == 0) {
+        return res.status(422).send(`Key TTL cannot be 0.`)
+    }
+
     //check if the max clicks for the secret is greater than max_key_clicks
     if (data.expire_clicks > config.max_key_expire_clicks) {
         return res.status(422).send(`Key expire clicks bigger than set limit. Check /config endpoint.`)
