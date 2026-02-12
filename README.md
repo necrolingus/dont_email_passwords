@@ -27,12 +27,14 @@ But read the documentation first 🎓😎
 - ✅ Set after how many clicks the link should expire
 - ✅Click submit and share the link
 
-![image](https://github.com/user-attachments/assets/b88c5588-eeb3-4b51-9ff3-e8b8a7de9183)
+<img width="564" height="660" alt="image" src="https://github.com/user-attachments/assets/70303676-4abd-4857-a833-89fd8e26766d" />
+
 
 
 - ✅ You can delete the secret immediately if you don't want to wait for it to expire
 
-![image](https://github.com/user-attachments/assets/8bd338bf-0f0e-4f99-9a18-d4bcf8ef48cf)
+<img width="568" height="579" alt="image" src="https://github.com/user-attachments/assets/5d891104-1531-45f0-bb97-f45951a9d308" />
+
 
 
 
