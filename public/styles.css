@@ -94,6 +94,26 @@ h4 {
   color: var(--text-muted);
 }
 
+/* ===== GitHub Link ===== */
+.github-link {
+  margin-top: -0.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.github-link a {
+  color: var(--neon-blue);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(0, 243, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.github-link a:hover {
+  text-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 243, 255, 0.3);
+}
+
 /* ===== Form Spacing ===== */
 form>div {
   margin-bottom: 0.6rem;
