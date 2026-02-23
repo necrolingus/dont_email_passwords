@@ -1,0 +1,26 @@
+name: Dependabot Auto-Merge
+on:
+  pull_request:
+  workflow_dispatch: 
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Approve and Merge Dependabot PRs
+        run: |
+          for pr in $(gh pr list --author "app/dependabot" --json url --template '{{range .}}{{.url}} {{end}}'); do
+            echo "Merging $pr..."
+            gh pr review --approve "$pr"
+            gh pr merge --merge --admin "$pr"
+          done
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
