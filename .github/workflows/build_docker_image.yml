@@ -17,8 +17,13 @@ jobs:
         with:
           fetch-depth: 1 
 
-      - name: Fetch History (Last 24h)
-        run: git fetch --shallow-since="24 hours ago"
+      - name: Fetch History (Last 24h) with Retry
+        run: |
+          # Try to fetch up to 3 times if there is a network/server hiccup
+          for i in {1..3}; do
+            git fetch --shallow-since="24 hours ago" && break || \
+            (echo "Fetch failed, retrying in 10s... (Attempt $i)" && sleep 20)
+          done
 
       - name: Check for recent changes
         id: check_changes
