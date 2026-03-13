@@ -1,8 +1,8 @@
 import express from 'express'
 import { engine } from 'express-handlebars'
-import {router} from './routes/routes.js'
-import {uiRouter} from './routes/uiRoutes.js'
-import {config} from './controller/config.js'
+import { router } from './routes/routes.js'
+import { uiRouter } from './routes/uiRoutes.js'
+import { config } from './controller/config.js'
 import { globalLimiter } from './middleware/rateLimit.js'
 import { headers } from './middleware/headers.js'
 
@@ -11,12 +11,12 @@ const port = config.port
 //express
 const app = express()
 app.disable('x-powered-by');
-app.set('trust proxy', config.rl_number_of_proxies)
-app.use(express.json())
+app.set('trust proxy', parseInt(config.rl_number_of_proxies) || 1);
+app.use(express.json());
 app.use(express.static('public'));
-app.use(headers)
-app.use(globalLimiter)
-app.use('/api', router)
+app.use(headers);
+app.use(globalLimiter);
+app.use('/api', router);
 
 //express-handlebars
 app.engine('handlebars', engine());
@@ -26,7 +26,7 @@ app.use('/ui', uiRouter);
 
 app.listen(port, (err) => {
     console.log(`Listening on port ${port}`)
-    if(err) {
+    if (err) {
         console.log(`Error: ${err}`)
     }
 })
