@@ -1,8 +1,14 @@
-version: "3"
-services:
+services:  
   dont_email_passwords:
-    image: dont_email_passwords:latest
+    image: ghcr.io/necrolingus/dont_email_passwords:latest
     restart: unless-stopped
-    env_file: stack.env
-    ports:
-      - 3058:3000
+    env_file: 
+     - .env
+    expose:
+      - 3002
+    networks:
+      - internal_proxy
+
+networks:
+  internal_proxy:
+    external: true
