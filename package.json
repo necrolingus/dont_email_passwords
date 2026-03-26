@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"No tests yet\""
+    "test": "echo \"No tests yet my guy\""
   },
   "author": "",
   "license": "ISC",
