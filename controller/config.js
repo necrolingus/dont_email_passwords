@@ -1,5 +1,5 @@
 export const config = {
-    port: process.env.DEP_PORT || 3000,
+    port: process.env.DEP_PORT || 8080,
     check_period_seconds: process.env.DEP_CACHE_CHECK_PERIOD_SECONDS || 500,
     max_keys: process.env.DEP_CACHE_MAX_KEYS || 5000,
     max_key_ttl_minutes: process.env.DEP_CACHE_MAX_KEY_TTL_MINUTES || 10080, //7 days
