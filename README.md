@@ -11,6 +11,49 @@ This is a direct spinoff from https://github.com/pglombardo/PasswordPusher but w
 ## 📚 Documentation with Examples
 Check it out [https://dep.leighonline.net/documentation](https://dep.leighonline.net/documentation) (redirects to Postman documentation).
 
+## Run Locally (No Docker)
+
+1. Install dependencies:
+   - `npm install`
+2. Start the API server in terminal 1:
+   - `npm start`
+3. Start the MCP server in terminal 2:
+   - `npm run start:mcp`
+
+Local endpoints:
+- API base: `http://localhost:8080/api`
+- Swagger UI: [http://localhost:8080/swagger](http://localhost:8080/swagger)
+- MCP endpoint: `http://localhost:8090/mcp`
+- MCP health: [http://localhost:8090/health](http://localhost:8090/health)
+
+### Local API Docs
+- Swagger UI: [http://localhost:8080/swagger](http://localhost:8080/swagger)
+- OpenAPI JSON: [http://localhost:8080/swagger.json](http://localhost:8080/swagger.json)
+- Project requirements: [requirements/requirements.md](requirements/requirements.md)
+
+### MCP Server (HTTP)
+- MCP endpoint: `POST http://localhost:8090/mcp`
+- Health endpoint: [http://localhost:8090/health](http://localhost:8090/health)
+- Local run command: `npm run start:mcp`
+- MCP tools available:
+  - `store_secret`
+  - `get_secret`
+  - `delete_secret`
+  - `get_config`
+  - `get_stats`
+
+Cursor MCP config snippet:
+```json
+{
+  "mcpServers": {
+    "dont-email-passwords": {
+      "transport": "streamable-http",
+      "url": "http://localhost:8090/mcp"
+    }
+  }
+}
+```
+
 ---
 <br />
 

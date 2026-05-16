@@ -15,6 +15,6 @@ RUN npm install --production
 # Bundle app source
 COPY . .
 
-#my code says express must run on port 3000
-EXPOSE 3000
+# Default app and MCP ports (can be overridden by env vars)
+EXPOSE 8080 8090
 CMD [ "node", "index.js" ]

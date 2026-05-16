@@ -5,18 +5,23 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "start:mcp": "node mcp/index.js",
     "test": "echo \"No tests yet my guy\""
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "ajv": "^8.17.1",
     "axios": "^1.15.2",
-    "express": "^4.21.1",
-    "express-handlebars": "^8.0.1",
-    "express-rate-limit": "^7.4.1",
+    "express": "^5.2.1",
+    "express-handlebars": "^9.0.1",
+    "express-rate-limit": "^8.5.2",
     "nanoid": "^5.0.8",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.4.3"
   }
 }

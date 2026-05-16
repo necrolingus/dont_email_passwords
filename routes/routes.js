@@ -6,6 +6,122 @@ import { config } from "../controller/config.js";
 
 const router = express.Router()
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     StoreSecretRequest:
+ *       type: object
+ *       required:
+ *         - secret
+ *         - expire_minutes
+ *         - expire_clicks
+ *       properties:
+ *         secret:
+ *           type: string
+ *           description: Secret content to store.
+ *           example: MyStrongPassword!123
+ *         expire_minutes:
+ *           type: integer
+ *           minimum: 1
+ *           description: Number of minutes before the secret expires.
+ *           example: 15
+ *         expire_clicks:
+ *           type: integer
+ *           minimum: 1
+ *           description: Number of reads allowed before the secret expires.
+ *           example: 3
+ *     SecretPayload:
+ *       type: object
+ *       required:
+ *         - secret
+ *         - expire_clicks
+ *         - current_clicks
+ *       properties:
+ *         secret:
+ *           type: string
+ *           example: MyStrongPassword!123
+ *         expire_clicks:
+ *           type: integer
+ *           example: 3
+ *         current_clicks:
+ *           type: integer
+ *           example: 1
+ *     ConfigResponse:
+ *       type: object
+ *       properties:
+ *         max_keys:
+ *           type: integer
+ *           example: 1000
+ *         max_key_ttl_minutes:
+ *           type: integer
+ *           example: 60
+ *         max_body_size_kb:
+ *           type: integer
+ *           example: 10
+ *         max_key_expire_clicks:
+ *           type: integer
+ *           example: 5
+ *     StatsResponse:
+ *       type: object
+ *       properties:
+ *         stats:
+ *           type: object
+ *           description: Node-cache stats object.
+ *           additionalProperties: true
+ *         Additional:
+ *           type: string
+ *           example: ksize = Key size in bytes. vsize = Value size in bytes
+ *   parameters:
+ *     SecretKey:
+ *       in: path
+ *       name: key
+ *       required: true
+ *       schema:
+ *         type: string
+ *       description: Secret key generated when storing a secret.
+ */
+
+/**
+ * @openapi
+ * /api/secret:
+ *   post:
+ *     tags:
+ *       - Secrets
+ *     summary: Store a new secret and return the one-time URL.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StoreSecretRequest'
+ *     responses:
+ *       200:
+ *         description: Secret stored successfully.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: http://localhost:3000/api/secret/abc123def456
+ *       413:
+ *         description: Secret is blank or payload is too large.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *       422:
+ *         description: Validation failed.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *       503:
+ *         description: Secret could not be stored.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ */
 router.post('/secret', async function (req, res) {
     const data = req.body
     const valid = validate_store_secret(data)
@@ -56,6 +172,29 @@ router.post('/secret', async function (req, res) {
     return res.status(200).send(fullUrl)
 })
 
+/**
+ * @openapi
+ * /api/secret/{key}:
+ *   get:
+ *     tags:
+ *       - Secrets
+ *     summary: Retrieve a stored secret payload by key.
+ *     parameters:
+ *       - $ref: '#/components/parameters/SecretKey'
+ *     responses:
+ *       200:
+ *         description: Secret found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SecretPayload'
+ *       404:
+ *         description: Key not found.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ */
 router.get('/secret/:key/', async function(req, res) {
     const key = req.params.key
     const value = cacheGet(key)
@@ -66,6 +205,29 @@ router.get('/secret/:key/', async function(req, res) {
     return res.status(200).json(value)
 })
 
+/**
+ * @openapi
+ * /api/secret/{key}:
+ *   delete:
+ *     tags:
+ *       - Secrets
+ *     summary: Delete a stored secret by key.
+ *     parameters:
+ *       - $ref: '#/components/parameters/SecretKey'
+ *     responses:
+ *       200:
+ *         description: Key deleted.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *       404:
+ *         description: Key not found.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ */
 router.delete('/secret/:key', async function(req, res) {
     const key = req.params.key
     const value = cacheDelete(key)
@@ -76,6 +238,21 @@ router.delete('/secret/:key', async function(req, res) {
     return res.status(200).send("Key deleted")
 })
 
+/**
+ * @openapi
+ * /api/config:
+ *   get:
+ *     tags:
+ *       - System
+ *     summary: Get runtime API limits and configuration values.
+ *     responses:
+ *       200:
+ *         description: Current config values.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ConfigResponse'
+ */
 router.get('/config', async function(req, res) {
     res.setHeader('Content-Type', 'application/json');
 
@@ -87,6 +264,21 @@ router.get('/config', async function(req, res) {
     })
 })
 
+/**
+ * @openapi
+ * /api/stats:
+ *   get:
+ *     tags:
+ *       - System
+ *     summary: Get in-memory cache stats.
+ *     responses:
+ *       200:
+ *         description: Cache stats.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/StatsResponse'
+ */
 router.get('/stats', async function (req, res) {
     const stats = cacheStats()
     
