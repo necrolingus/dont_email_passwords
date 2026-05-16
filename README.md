@@ -42,15 +42,26 @@ Local endpoints:
   - `get_config`
   - `get_stats`
 
-Cursor MCP config snippet:
+Cursor MCP config snippet (Cursor):
 ```json
 {
   "mcpServers": {
     "dont-email-passwords": {
       "transport": "streamable-http",
-      "url": "http://localhost:8090/mcp"
+      "url": "http://localhost:8090/mcp" (or whever you are running)
     }
   }
+}
+
+Or just like this in production (Antigravity):
+
+```json
+{
+    "mcpServers": {
+        "dont-email-passwords": {
+            "serverUrl": "https://dep.leighonline.net/mcp"
+        }
+    }
 }
 ```
 

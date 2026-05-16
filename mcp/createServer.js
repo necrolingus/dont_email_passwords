@@ -25,7 +25,13 @@ const createServer = () => {
             }
         },
         async ({ secret, expire_minutes, expire_clicks }) => {
-            const data = await storeSecret({ secret, expire_minutes, expire_clicks })
+            let data = await storeSecret({ secret, expire_minutes, expire_clicks })
+
+            // The API returns the direct backend endpoint (/api/secret/key).
+            // We want the MCP to return the frontend URL (/ui/key) just like the web app does.
+            if (typeof data === 'string' && data.includes('/api/secret/')) {
+                data = data.replace('/api/secret/', '/ui/')
+            }
 
             return {
                 content: [
