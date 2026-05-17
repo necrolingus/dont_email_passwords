@@ -7,7 +7,7 @@ const apiClient = axios.create({
     baseURL: apiBaseUrl,
     timeout: timeoutMs,
     headers: process.env.MCP_PUBLIC_DOMAIN ? {
-        'X-Forwarded-Host': process.env.MCP_PUBLIC_DOMAIN,
+        'Host': process.env.MCP_PUBLIC_DOMAIN,
         'X-Forwarded-Proto': 'https'
     } : {}
 })
