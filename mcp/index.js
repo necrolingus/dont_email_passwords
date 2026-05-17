@@ -41,8 +41,9 @@ app.post('/mcp', async (req, res) => {
             transport.onclose = async () => {
                 const activeSessionId = transport.sessionId
                 if (activeSessionId && sessions[activeSessionId]) {
-                    await sessions[activeSessionId].server.close()
+                    const serverToClose = sessions[activeSessionId].server
                     delete sessions[activeSessionId]
+                    await serverToClose.close()
                 }
             }
 
