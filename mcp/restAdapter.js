@@ -1,11 +1,15 @@
 import axios from 'axios'
 
-const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
+const apiBaseUrl = process.env.MCP_API_BASE_URL || 'http://localhost:8080'
 const timeoutMs = Number(process.env.MCP_API_TIMEOUT_MS || 8000)
 
 const apiClient = axios.create({
     baseURL: apiBaseUrl,
-    timeout: timeoutMs
+    timeout: timeoutMs,
+    headers: process.env.MCP_PUBLIC_DOMAIN ? {
+        'X-Forwarded-Host': process.env.MCP_PUBLIC_DOMAIN,
+        'X-Forwarded-Proto': 'https'
+    } : {}
 })
 
 const toErrorMessage = (error, fallbackMessage) => {
