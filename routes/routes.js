@@ -164,7 +164,7 @@ router.post('/secret', async function (req, res) {
     const secret_json = { "secret": data.secret, "expire_clicks": data.expire_clicks, "current_clicks": 0 }
     
     //check cache set outcome
-    const outcome = cacheSet(key, secret_json, expire_seconds)
+    const outcome = await cacheSet(key, secret_json, expire_seconds)
 
     if (!outcome) {
         return res.status(503).send('Something went wrong, the secret could not be stored')
@@ -197,7 +197,7 @@ router.post('/secret', async function (req, res) {
  */
 router.get('/secret/:key/', async function(req, res) {
     const key = req.params.key
-    const value = cacheGet(key)
+    const value = await cacheGet(key)
     
     if(!value) {
         return res.status(404).send("Key not found")
@@ -230,7 +230,7 @@ router.get('/secret/:key/', async function(req, res) {
  */
 router.delete('/secret/:key', async function(req, res) {
     const key = req.params.key
-    const value = cacheDelete(key)
+    const value = await cacheDelete(key)
 
     if(value === 0) {
         return res.status(404).send("Key not found")
@@ -280,7 +280,7 @@ router.get('/config', async function(req, res) {
  *               $ref: '#/components/schemas/StatsResponse'
  */
 router.get('/stats', async function (req, res) {
-    const stats = cacheStats()
+    const stats = await cacheStats()
     
     res.setHeader('Content-Type', 'application/json');
     return res.status(200).json({

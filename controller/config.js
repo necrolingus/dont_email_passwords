@@ -7,5 +7,7 @@ export const config = {
     max_body_size_kb: process.env.DEP_CACHE_MAX_BODY_SIZE_KB || 10,
     rl_window_minutes: process.env.DEP_RL_WINDOW_MINUTES || 5,
     rl_requests_in_window: process.env.DEP_RL_REQUESTS_IN_WINDOW || 40,
-    rl_number_of_proxies: process.env.DEP_RL_NUMBER_OF_PROXIES || 2
+    rl_number_of_proxies: process.env.DEP_RL_NUMBER_OF_PROXIES || 2,
+    storage_type: process.env.DEP_STORAGE_TYPE || 'memory',
+    sqlite_path: process.env.DEP_SQLITE_PATH || './data/secrets.db'
 };

@@ -31,6 +31,41 @@ Local endpoints:
 - OpenAPI JSON: [http://localhost:8080/swagger.json](http://localhost:8080/swagger.json)
 - Project requirements: [requirements/requirements.md](requirements/requirements.md)
 
+## 💾 Storage & Persistence
+
+By default, the application stores secrets in memory. You can configure it to persist secrets across server restarts using a SQLite database. This uses the native, zero-dependency `node:sqlite` module (supported on Node.js 22.5.0+ and Node 24+).
+
+To configure storage and other app settings:
+1. Copy the `.env.example` file to create a `.env` file:
+   ```bash
+   cp .env.example .env
+   ```
+2. Update the environment variables in your `.env` file:
+   - `DEP_STORAGE_TYPE=sqlite`
+   - `DEP_SQLITE_PATH=./data/secrets.db`
+
+### Running with SQLite locally
+
+Once your `.env` file is set up with SQLite enabled, you can run the server locally:
+```bash
+npm start
+```
+
+### Running with SQLite in Docker
+
+To persist secrets when running in a Docker container, ensure your `.env` file is configured for SQLite, and mount a persistent volume in your `docker-compose.yaml`:
+
+```yaml
+services:
+  dont_email_passwords:
+    image: ghcr.io/necrolingus/dont_email_passwords:latest
+    restart: unless-stopped
+    env_file: 
+      - .env
+    volumes:
+      - ./data:/usr/src/app/data
+```
+
 ### MCP Server (HTTP)
 - MCP endpoint: `POST http://localhost:8090/mcp`
 - Health endpoint: [http://localhost:8090/health](http://localhost:8090/health)
@@ -107,6 +142,7 @@ But read the documentation first 🎓😎
 - **Config and Stats**:
    - Get stats about your cache via API. 📊
    - Get your config via an API. Super useful when building your own font-end. 🗂️
+- **Storage Options**: Choose between fast in-memory storage or persistent SQLite storage (built-in native driver). 💾
 - **Deployment Flexibility**: Run locally or in Docker 🐳.
 
 <br />

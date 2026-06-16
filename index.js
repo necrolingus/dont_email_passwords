@@ -8,6 +8,7 @@ import { config } from './controller/config.js'
 import { globalLimiter } from './middleware/rateLimit.js'
 import { headers } from './middleware/headers.js'
 import { swaggerSpec } from './swagger/swagger.js'
+import { initStorage } from './controller/cacheManager.js'
 
 // Take Note:
 // When you use import './mcp/index.js', Node.js doesn't just read 
@@ -46,9 +47,17 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 app.use('/ui', uiRouter);
 
-app.listen(port, (err) => {
-    console.log(`Listening on port ${port}`)
-    if (err) {
-        console.log(`Error: ${err}`)
+;(async () => {
+    try {
+        await initStorage()
+        app.listen(port, (err) => {
+            console.log(`Listening on port ${port}`)
+            if (err) {
+                console.log(`Error: ${err}`)
+            }
+        })
+    } catch (err) {
+        console.error('Failed to initialize storage:', err)
+        process.exit(1)
     }
-})
+})()

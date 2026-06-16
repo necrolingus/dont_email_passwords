@@ -7,6 +7,8 @@ services:
     expose:
       - 3002
       - 8090
+    volumes:
+      - ./data:/usr/src/app/data
     networks:
       - internal_proxy
 
