@@ -8,10 +8,13 @@ services:
       - 3002
       - 8090
     volumes:
-      - ./data:/usr/src/app/data
+      - dep-data:/usr/src/app/data
     networks:
       - internal_proxy
 
 networks:
   internal_proxy:
     external: true
+
+volumes:
+  dep-data:

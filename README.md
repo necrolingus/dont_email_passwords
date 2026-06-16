@@ -53,7 +53,7 @@ npm start
 
 ### Running with SQLite in Docker
 
-To persist secrets when running in a Docker container, ensure your `.env` file is configured for SQLite, and mount a persistent volume in your `docker-compose.yaml`:
+To persist secrets when running in a Docker container, ensure your `.env` file is configured for SQLite, and mount a Docker-managed named volume in your `docker-compose.yaml`:
 
 ```yaml
 services:
@@ -63,7 +63,10 @@ services:
     env_file: 
       - .env
     volumes:
-      - ./data:/usr/src/app/data
+      - dep-data:/usr/src/app/data
+
+volumes:
+  dep-data:
 ```
 
 ### MCP Server (HTTP)
