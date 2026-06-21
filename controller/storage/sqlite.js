@@ -18,6 +18,11 @@ export class SqliteStore {
         }
 
         this.db = new DatabaseSync(dbPath);
+        
+        // Configure SQLite for better concurrency and prevent SQLITE_BUSY errors
+        this.db.exec('PRAGMA journal_mode = WAL;');
+        this.db.exec('PRAGMA busy_timeout = 5000;');
+
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS secrets (
                 key TEXT PRIMARY KEY,
