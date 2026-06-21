@@ -33,27 +33,26 @@ Local endpoints:
 
 ## 💾 Storage & Persistence
 
-By default, the application stores secrets in memory. You can configure it to persist secrets across server restarts using a SQLite database. This uses the native, zero-dependency `node:sqlite` module (supported on Node.js 22.5.0+ and Node 24+).
+The application stores all secrets persistently in a SQLite database. This uses the native, zero-dependency `node:sqlite` module (supported on Node.js 22.5.0+ and Node 24+).
 
 To configure storage and other app settings:
 1. Copy the `.env.example` file to create a `.env` file:
    ```bash
    cp .env.example .env
    ```
-2. Update the environment variables in your `.env` file:
-   - `DEP_STORAGE_TYPE=sqlite`
+2. Update the SQLite database file path in your `.env` file (if you wish to change the default):
    - `DEP_SQLITE_PATH=./data/secrets.db`
 
-### Running with SQLite locally
+### Running locally
 
-Once your `.env` file is set up with SQLite enabled, you can run the server locally:
+Once your `.env` file is set up, you can run the server locally:
 ```bash
 npm start
 ```
 
-### Running with SQLite in Docker
+### Running in Docker
 
-To persist secrets when running in a Docker container, ensure your `.env` file is configured for SQLite, and mount a Docker-managed named volume in your `docker-compose.yaml`:
+To persist secrets when running in a Docker container, mount a Docker-managed named volume in your `docker-compose.yaml` to match your database path:
 
 ```yaml
 services:
@@ -143,9 +142,9 @@ But read the documentation first 🎓😎
 - **UI and API**: Use the UI or integrate into your own application using the API. 🗂️
 - **Super lightweight**: Uses less than 60MB of memory (depending on the cache size of course). ⚖️
 - **Config and Stats**:
-   - Get stats about your cache via API. 📊
+   - Get stats about your secrets storage via API. 📊
    - Get your config via an API. Super useful when building your own font-end. 🗂️
-- **Storage Options**: Choose between fast in-memory storage or persistent SQLite storage (built-in native driver). 💾
+- **SQLite Persistence**: Built-in native SQLite engine for lightweight and persistent storage (zero external dependencies). 💾
 - **Deployment Flexibility**: Run locally or in Docker 🐳.
 
 <br />
