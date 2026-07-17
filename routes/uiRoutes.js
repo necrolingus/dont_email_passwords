@@ -55,6 +55,7 @@ uiRouter.get('/:key', async function(req, res) {
         if (error.status === 404){
             res.render('404');
         } else {
+            console.log(error)
             res.render('bad');
         }
     }
